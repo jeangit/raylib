@@ -139,9 +139,12 @@ void UpdateSound(Sound sound, const void *data, int samplesCount);// Update soun
 void UnloadWave(Wave wave);                                     // Unload wave data
 void UnloadSound(Sound sound);                                  // Unload sound
 void PlaySound(Sound sound);                                    // Play a sound
+void PlaySoundMulti(Sound sound);                               // Play a sound using the multi channel buffer pool
+int GetSoundsPlaying(void);                                     // Get number of sounds playing in the multichannel buffer pool
 void PauseSound(Sound sound);                                   // Pause a sound
 void ResumeSound(Sound sound);                                  // Resume a paused sound
 void StopSound(Sound sound);                                    // Stop playing a sound
+void StopSoundMulti(void);                                      // Stop any sound played with PlaySoundMulti()
 bool IsSoundPlaying(Sound sound);                               // Check if a sound is currently playing
 void SetSoundVolume(Sound sound, float volume);                 // Set volume for a sound (1.0 is max level)
 void SetSoundPitch(Sound sound, float pitch);                   // Set pitch for a sound (1.0 is base level)
@@ -164,7 +167,7 @@ float GetMusicTimeLength(Music music);                          // Get music tim
 float GetMusicTimePlayed(Music music);                          // Get current music time played (in seconds)
 
 // AudioStream management functions
-AudioStream InitAudioStream(unsigned int sampleRate, 
+AudioStream InitAudioStream(unsigned int sampleRate,
                             unsigned int sampleSize,
                             unsigned int channels);             // Init audio stream (to stream raw audio pcm data)
 void UpdateAudioStream(AudioStream stream, const void *data, int samplesCount); // Update audio stream buffers with data
