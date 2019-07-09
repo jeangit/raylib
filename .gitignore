@@ -136,3 +136,5 @@ GPATH
 GRTAGS
 GTAGS
 .vs
+
+libraylib.so*
