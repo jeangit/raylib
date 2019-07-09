@@ -1143,35 +1143,8 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
     }
 }
 
-Vector4 average_vector4( Vector4 *va, Vector4 *vb, float coeff)
-{
-  Vector4 v4;
-  if (coeff > 0) {
-    v4.x = va->x*coeff + vb->x*coeff;
-    v4.y = va->y*coeff + vb->y*coeff;
-    v4.z = va->z*coeff + vb->z*coeff;
-    v4.w = va->w*coeff + vb->w*coeff;
-    return v4;
-  }
-  return *va;
-}
 
-Vector3 average_vector3( Vector3 *va, Vector3 *vb, float coeff)
-{
-  Vector3 v3;
-  if (coeff > 0) {
-    v3.x = va->x*coeff + vb->x*coeff;
-    v3.y = va->y*coeff + vb->y*coeff;
-    v3.z = va->z*coeff + vb->z*coeff;
-    //fprintf(stderr,"retour v3\n");
-    return v3;
-  }
-  //fprintf(stderr,"%f : retour va\n",coeff);
-  return *va;
-}
-
-
-void _UpdateModelAnimation(Model model, ModelAnimation anim, int frame, int in_between)
+void _UpdateModelAnimation(Model model, ModelAnimation anim, int frame, float in_between)
 {
     if (frame >= anim.frameCount) frame = frame%anim.frameCount;
 
@@ -1213,10 +1186,9 @@ void _UpdateModelAnimation(Model model, ModelAnimation anim, int frame, int in_b
             outScale_2 = anim.framePoses[(frame+1)%anim.frameCount][boneId].scale;
 
             fprintf(stderr,"frame: %d , frame+1 : %d\n",frame,(frame+1)%anim.frameCount);
-            outTranslation = average_vector3( &outTranslation_1, &outTranslation_2, in_between/2.);
-            outRotation = average_vector4( &outRotation_1, &outRotation_2, in_between/2.);
-            outScale = average_vector3( &outScale_1, &outScale_2, in_between/2.);
-
+            outTranslation = Vector3Lerp( outTranslation_1, outTranslation_2, in_between);
+            outRotation = QuaternionSlerp( outRotation_1, outRotation_2, in_between);
+            outScale = Vector3Lerp( outScale_1, outScale_2, in_between);
             // Vertices processing
             // NOTE: We use meshes.vertices (default vertex position) to calculate meshes.animVertices (animated vertex position)
             animVertex = (Vector3){ model.meshes[m].vertices[vCounter], model.meshes[m].vertices[vCounter + 1], model.meshes[m].vertices[vCounter + 2] };
