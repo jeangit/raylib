@@ -1185,7 +1185,7 @@ void _UpdateModelAnimation(Model model, ModelAnimation anim, int frame, float in
             outRotation_2 = anim.framePoses[(frame+1)%anim.frameCount][boneId].rotation;
             outScale_2 = anim.framePoses[(frame+1)%anim.frameCount][boneId].scale;
 
-            fprintf(stderr,"frame: %d , frame+1 : %d\n",frame,(frame+1)%anim.frameCount);
+            //fprintf(stderr,"frame: %d , frame+1 : %d\n",frame,(frame+1)%anim.frameCount);
             outTranslation = Vector3Lerp( outTranslation_1, outTranslation_2, in_between);
             outRotation = QuaternionSlerp( outRotation_1, outRotation_2, in_between);
             outScale = Vector3Lerp( outScale_1, outScale_2, in_between);
